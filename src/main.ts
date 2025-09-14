@@ -7,6 +7,8 @@ import { setupInput } from "./setup/input"
 import { setupScene } from "./setup/scene"
 import { setupCamera } from "./setup/camera"
 import { checkCollision } from "./physics/collision"
+import { createHouseRow } from "./entities/house"
+import { STREET_WIDTH } from "./constants/street"
 
 // initial setup
 const { scene } = setupScene()
@@ -34,6 +36,9 @@ createPlatform(scene, 0, 4.5, 6, 5, 2)
 // Landmarks
 createPlatform(scene, -6, 1, -5, 1, 1, 0xff0000)
 createPlatform(scene, 5, 1, 5, 2, 1, 0x00ff00)
+
+createHouseRow(scene, -STREET_WIDTH / 2, -5, 20, 3, "left")
+createHouseRow(scene, STREET_WIDTH / 2, -5, 20, 3, "right")
 
 // Animation loop
 function animate(): void {
