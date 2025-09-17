@@ -7,7 +7,7 @@ interface PlayerPhysics {
 }
 
 export const PLAYER_PHYSICS: PlayerPhysics = {
-  speed: 0.6,
+  speed: 0.3,
   yVelocity: 0,
   gravity: -0.02,
   jumpStrength: 0.5,

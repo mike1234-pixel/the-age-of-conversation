@@ -5,10 +5,25 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link rel="stylesheet" href="./src/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Age of Conversation</title>
+    <title>The Age of Conversation: Words, Wit, &amp; The City (1996)</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="status-bar">
+        <div class="status-plum-pudding">
+          <img
+            src="/assets/plum-pudding.png"
+            alt="plum pudding icon"
+            class="plum-pudding-icon"
+          />
+          <label for="plum-puddings" class="label-plum-pudding">
+            <span id="plum-pudding-count">0</span> of 50</label
+          >
+          <progress id="plum-puddings" value="0" max="50" />
+        </div>
+      </div>
+      <div id="subtitles"></div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

@@ -1,3 +1,31 @@
 body {
-  background-color: slategrey;
+  background-color: #002c11;
+}
+
+#subtitles {
+  position: absolute;
+  bottom: 50px;
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 24px;
+  color: white;
+  text-shadow: 2px 2px 4px #000;
+  pointer-events: none;
+  padding: 20px 90px;
+}
+
+.status-bar {
+  color: white;
+  font-family: sans-serif;
+  padding: 20px 90px;
+}
+
+.status-plum-pudding {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.plum-pudding-icon {
+  width: 40px;
 }

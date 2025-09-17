@@ -1,8 +1,12 @@
-import { Color, Scene } from "three"
+import { Scene, TextureLoader } from "three"
 
-export const setupScene = (): { scene: Scene } => {
+export const setupScene = (): Scene => {
   const scene: Scene = new Scene()
-  scene.background = new Color(0x87ceeb) // sky blue
 
-  return { scene }
+  const loader = new TextureLoader()
+  loader.load("/assets/sky.png", function (texture) {
+    scene.background = texture
+  })
+
+  return scene
 }

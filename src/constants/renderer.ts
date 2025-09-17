@@ -6,5 +6,5 @@ interface Renderer {
 
 export const RENDERER: Renderer = {
   width: 620,
-  height: 240,
+  height: 200,
 }

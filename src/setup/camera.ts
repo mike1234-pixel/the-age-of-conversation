@@ -1,7 +1,7 @@
 import { PerspectiveCamera } from "three"
 import { RENDERER } from "../constants/renderer"
 
-export const setupCamera = (): { camera: PerspectiveCamera } => {
+export const setupCamera = (): PerspectiveCamera => {
   const camera: PerspectiveCamera = new PerspectiveCamera(
     75,
     RENDERER.width / RENDERER.height,
@@ -10,5 +10,5 @@ export const setupCamera = (): { camera: PerspectiveCamera } => {
   )
   camera.position.set(0, 2, 5)
 
-  return { camera }
+  return camera
 }
