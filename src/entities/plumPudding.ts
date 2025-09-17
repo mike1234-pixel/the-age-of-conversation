@@ -48,7 +48,7 @@ export class PlumPudding {
     ) as HTMLProgressElement
 
     counterEl.textContent = STATE.plumPuddingCount.toString()
-    puddingProgressBar.value = 5
+    puddingProgressBar.value = STATE.plumPuddingCount
 
     this.sprite.parent?.remove(this.sprite)
   }

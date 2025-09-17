@@ -44,6 +44,12 @@ createHouseRow(scene, STREET_WIDTH / 2, -70, 20, 8, "right")
 // Plum Puddings
 const plumPuddings: PlumPudding[] = [
   new PlumPudding(scene, { x: 0, y: 1, z: -15 }),
+  new PlumPudding(scene, { x: 1, y: 1, z: -15 }),
+  new PlumPudding(scene, { x: 2, y: 1, z: -15 }),
+  new PlumPudding(scene, { x: 3, y: 1, z: -15 }),
+  new PlumPudding(scene, { x: 4, y: 1, z: -15 }),
+  new PlumPudding(scene, { x: 5, y: 1, z: -15 }),
+  new PlumPudding(scene, { x: 6, y: 1, z: -15 }),
   new PlumPudding(scene, { x: -4, y: 4.5, z: 3 }),
   new PlumPudding(scene, { x: -6, y: 4.5, z: 3 }),
 ]
