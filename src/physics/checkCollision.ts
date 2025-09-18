@@ -1,9 +1,9 @@
 import type { Vector3 } from "three"
-import { platforms } from "../entities/platform"
 import { PLAYER_PHYSICS } from "../constants/playerPhysics"
+import { STATE } from "../state"
 
 export const checkCollision = (position: Vector3): boolean => {
-  for (const platform of platforms) {
+  for (const platform of STATE.platforms) {
     const px = platform.position.x
     const py = platform.position.y + 0.5
     const pz = platform.position.z

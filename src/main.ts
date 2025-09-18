@@ -1,19 +1,21 @@
 import { PLAYER_PHYSICS } from "./constants/playerPhysics"
-import { createPlatform, platforms } from "./entities/platform"
+import { Platform } from "./entities/platform"
 import { setupRenderer } from "./setup/renderer"
 import { setupInput } from "./setup/input"
 import { setupScene } from "./setup/scene"
 import { setupCamera } from "./setup/camera"
 import { checkCollision } from "./physics/checkCollision"
-import { createHouseRow } from "./entities/house"
 import { STREET_WIDTH } from "./constants/street"
 import { Character } from "./entities/character"
 import { getCameraRelativeMovement } from "./physics/getCameraRelativeMovement"
 import { setupControls } from "./setup/controls"
 import { applyGravity } from "./physics/applyGravity"
-import { createTimeMachine } from "./entities/timeMachine"
 import { DIALOGUE } from "./constants/dialogue"
 import { PlumPudding } from "./entities/plumPudding"
+import { HouseRow } from "./entities/house"
+import { STATE } from "./state"
+import { SpriteEntity } from "./entities/spriteEntity"
+import { Vector3 } from "three"
 
 // Initial Setup
 const scene = setupScene()
@@ -27,87 +29,144 @@ const keys = setupInput()
 setupControls(camera, renderer)
 
 // Ground
-createPlatform(scene, 0, 0, 0, 20, 400, 15, 150)
+new Platform(scene, {
+  x: 0,
+  y: 0,
+  z: 0,
+  width: 20,
+  depth: 400,
+  repeatX: 15,
+  repeatZ: 150,
+})
 
 // Jumpable platforms
-createPlatform(scene, 3, 1.5, -2, 4, 4)
-createPlatform(scene, -4, 3, 3, 3, 3)
-createPlatform(scene, 0, 4.5, 6, 5, 2)
+new Platform(scene, {
+  x: 3,
+  y: 1.5,
+  z: -2,
+  width: 4,
+  depth: 4,
+})
+
+new Platform(scene, {
+  x: -4,
+  y: 3,
+  z: 3,
+  width: 3,
+  depth: 3,
+})
+
+new Platform(scene, {
+  x: 0,
+  y: 4.5,
+  z: 6,
+  width: 5,
+  depth: 2,
+})
 
 // Landmarks
-createPlatform(scene, -6, 1, -5, 1, 1)
-createPlatform(scene, 5, 1, 5, 2, 1)
+new Platform(scene, {
+  x: -6,
+  y: 1,
+  z: -5,
+  width: 1,
+  depth: 1,
+})
 
-createHouseRow(scene, -STREET_WIDTH / 2, -70, 20, 8, "left")
-createHouseRow(scene, STREET_WIDTH / 2, -70, 20, 8, "right")
+new Platform(scene, {
+  x: 5,
+  y: 1,
+  z: 5,
+  width: 2,
+  depth: 1,
+})
+
+new HouseRow({
+  scene,
+  startX: -STREET_WIDTH / 2,
+  startZ: -70,
+  numHouses: 20,
+  spacing: 8,
+  side: "left",
+})
+
+new HouseRow({
+  scene,
+  startX: STREET_WIDTH / 2,
+  startZ: -70,
+  numHouses: 20,
+  spacing: 8,
+  side: "right",
+})
 
 // Plum Puddings
+
+// TODO: PLUM PUDDING SHOULD EXTEND A COLLECTIBLE CLASS
 const plumPuddings: PlumPudding[] = [
-  new PlumPudding(scene, { x: 0, y: 1, z: -15 }),
-  new PlumPudding(scene, { x: 1, y: 1, z: -15 }),
-  new PlumPudding(scene, { x: 2, y: 1, z: -15 }),
-  new PlumPudding(scene, { x: 3, y: 1, z: -15 }),
-  new PlumPudding(scene, { x: 4, y: 1, z: -15 }),
-  new PlumPudding(scene, { x: 5, y: 1, z: -15 }),
-  new PlumPudding(scene, { x: 6, y: 1, z: -15 }),
-  new PlumPudding(scene, { x: -4, y: 4.5, z: 3 }),
-  new PlumPudding(scene, { x: -6, y: 4.5, z: 3 }),
+  new PlumPudding({ scene, position: { x: 0, y: 1, z: -15 } }),
+  new PlumPudding({ scene, position: { x: 1, y: 1, z: -15 } }),
+  new PlumPudding({ scene, position: { x: 2, y: 1, z: -15 } }),
+  new PlumPudding({ scene, position: { x: 3, y: 1, z: -15 } }),
+  new PlumPudding({ scene, position: { x: 4, y: 1, z: -15 } }),
+  new PlumPudding({ scene, position: { x: 5, y: 1, z: -15 } }),
+  new PlumPudding({ scene, position: { x: 6, y: 1, z: -15 } }),
+  new PlumPudding({ scene, position: { x: -4, y: 4.5, z: 3 } }),
+  new PlumPudding({ scene, position: { x: -6, y: 4.5, z: 3 } }),
 ]
 
 // Time Machine
-createTimeMachine(scene)
-
-// TO DO: PASS IN AN OBJECT AS A SINGLE PARAMETER
-// TO MAKE IT CLEAR AT A GLANCE WHAT THESE ARGUMENTS ARE
-const historian = new Character(
+new SpriteEntity({
   scene,
-  "/assets/historian.png",
-  {
+  texturePath: "/assets/time-machine.png",
+  position: new Vector3(1, 2.3, 1),
+  scale: new Vector3(3, 4, 3),
+})
+
+const historian = new Character({
+  scene,
+  texturePath: "/assets/historian.png",
+  position: {
     x: 2,
     y: 2,
     z: 2.5,
   },
-  { x: 3, y: 3 },
-  DIALOGUE.historian,
-  9000
-)
+  scale: { x: 3, y: 3 },
+  speech: DIALOGUE.historian,
+  speechDuration: 9000,
+})
 
-const man = new Character(
+const man = new Character({
   scene,
-  "/assets/man.png",
-  {
-    x: -4,
-    y: 2,
-    z: -100,
-  },
-  { x: 3, y: 3 },
-  DIALOGUE.man
-)
+  texturePath: "/assets/man.png",
+  position: { x: -4, y: 2, z: -100 },
+  scale: { x: 3, y: 3 },
+  speech: DIALOGUE.man,
+})
 
-const rotundMan = new Character(
+const rotundMan = new Character({
   scene,
-  "/assets/rotund-man.png",
-  {
+  texturePath: "/assets/rotund-man.png",
+  position: {
     x: 8,
     y: 2,
     z: 1,
   },
-  { x: 3, y: 3 },
-  DIALOGUE.rotundMan
-)
+  scale: { x: 3, y: 3 },
+  speech: DIALOGUE.rotundMan,
+})
 
-const rotundWoman = new Character(
+const rotundWoman = new Character({
   scene,
-  "/assets/rotund-woman.png",
-  {
+  texturePath: "/assets/rotund-woman.png",
+  position: {
     x: -8,
     y: 2,
     z: -7,
   },
-  { x: 3, y: 3 },
-  DIALOGUE.rotundWoman,
-  9000
-)
+  scale: { x: 3, y: 3 },
+  speech: DIALOGUE.rotundWoman,
+  speechDuration: 9000,
+})
 
 // Animation loop
 function animate(): void {
@@ -132,7 +191,7 @@ function animate(): void {
     camera.position.z = newPos.z
   }
 
-  applyGravity(camera, platforms)
+  applyGravity(camera, STATE.platforms)
 
   // Plum Pudding Collection
   plumPuddings.forEach((plumPudding) =>

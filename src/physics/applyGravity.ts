@@ -1,10 +1,10 @@
 import type { PerspectiveCamera } from "three"
 import { PLAYER_PHYSICS } from "../constants/playerPhysics"
-import type { Platform } from "../entities/platform"
+import type { PlatformMesh } from "../entities/platform"
 
 export const applyGravity = (
   camera: PerspectiveCamera,
-  platforms: Platform[]
+  platforms: PlatformMesh[]
 ) => {
   PLAYER_PHYSICS.yVelocity += PLAYER_PHYSICS.gravity
   camera.position.y += PLAYER_PHYSICS.yVelocity

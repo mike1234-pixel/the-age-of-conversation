@@ -11,28 +11,56 @@ interface Scale {
   y: number
 }
 
+export interface CharacterOptions {
+  /** Three.js scene to add the character to */
+  scene: Scene
+  /** Path to the character texture */
+  texturePath: string
+  /** Initial position of the character */
+  position?: Vector3
+  /** Scale of the character sprite */
+  scale?: Scale
+  /** Dialogue text or sequence of lines the character will say */
+  speech?: string | string[]
+  /** Duration in milliseconds for each line of speech */
+  speechDuration?: number
+}
+
 // 🔑 Global tracker for speech
 let currentSpeechTimeout: number | null = null
 let currentSpeaker: Character | null = null
 
+/**
+ * Represents a static or moving character in the scene that can speak.
+ */
 export class Character {
   sprite: Sprite
   stopDistance: number = 4
   speaking: boolean = false
-  hasSpoken: boolean = false // Track if player already triggered speech
-  speech: string | string[] = "Hello sir!" // Can be a single string or sequence
+  hasSpoken: boolean = false
+  speech: string | string[] = "Hello sir!"
   speechDuration: number
 
-  constructor(
-    scene: Scene,
-    texturePath: string,
-    position: Vector3 = { x: 0, y: 0, z: 0 },
-    scale: Scale = { x: 4, y: 4 },
-    speech: string | string[],
-    speechDuration?: number
-  ) {
+  /**
+   * Creates a new character.
+   * @param options.scene - Three.js scene to add the character to
+   * @param options.texturePath - Path to the sprite texture
+   * @param options.position - Optional initial position (default { x:0, y:0, z:0 })
+   * @param options.scale - Optional sprite scale (default { x:4, y:4 })
+   * @param options.speech - Optional dialogue text or array of lines (default "Hello sir!")
+   * @param options.speechDuration - Optional duration per line in ms (default 3000)
+   */
+  constructor({
+    scene,
+    texturePath,
+    position = { x: 0, y: 0, z: 0 },
+    scale = { x: 4, y: 4 },
+    speech = "Hello sir!",
+    speechDuration = 3000,
+  }: CharacterOptions) {
     this.speech = speech
-    this.speechDuration = speechDuration ?? 3000 // Default for one line of speech, extend duration for speech sequences
+    this.speechDuration = speechDuration
+
     const loader = new TextureLoader()
     const texture = loader.load(texturePath)
 
@@ -43,6 +71,13 @@ export class Character {
     scene.add(this.sprite)
   }
 
+  /**
+   * Moves the character by the given offsets. Optionally stops to trigger speech when near a player.
+   * @param dx - Movement along X axis (default 0)
+   * @param dy - Movement along Y axis (default 0)
+   * @param dz - Movement along Z axis (default 0)
+   * @param playerPosition - Optional player position to trigger speech when close
+   */
   move(
     dx: number = 0,
     dy: number = 0,
@@ -57,14 +92,12 @@ export class Character {
       )
 
       if (distance <= this.stopDistance) {
-        // Only trigger speech if it hasn't been triggered yet
         if (!this.speaking && !this.hasSpoken) {
           this.speak(this.speech)
           this.hasSpoken = true
         }
         return
       } else {
-        // Reset for next approach
         this.speaking = false
         this.hasSpoken = false
       }
@@ -75,15 +108,25 @@ export class Character {
     this.sprite.position.z += dz
   }
 
+  /**
+   * Sets the character's position directly.
+   * @param x - X coordinate
+   * @param y - Y coordinate
+   * @param z - Z coordinate
+   */
   setPosition(x: number, y: number, z: number): void {
     this.sprite.position.set(x, y, z)
   }
 
+  /**
+   * Displays speech lines as subtitles in the DOM element with ID 'subtitles'.
+   * Automatically handles timing for multiple lines and ensures only one character speaks at a time.
+   * @param text - Single line or array of lines to display
+   */
   speak(text: string | string[]) {
     const subtitleEl = document.getElementById("subtitles")
     if (!subtitleEl) return
 
-    // If another character is speaking, stop them
     if (currentSpeechTimeout) {
       clearTimeout(currentSpeechTimeout)
       currentSpeechTimeout = null
@@ -95,7 +138,6 @@ export class Character {
     currentSpeaker = this
     this.speaking = true
 
-    // Normalize input to array
     const lines = Array.isArray(text) ? text : [text]
     let index = 0
 
