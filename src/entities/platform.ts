@@ -25,6 +25,8 @@ export interface PlatformOptions {
   repeatX?: number
   /** Number of times the texture repeats along the depth */
   repeatZ?: number
+  /** The surface texture */
+  texturePath: string
 }
 
 /**
@@ -40,6 +42,7 @@ export class Platform {
   private depth: number
   private repeatX: number
   private repeatZ: number
+  private texturePath: string
 
   /**
    * Creates a new Platform.
@@ -52,6 +55,7 @@ export class Platform {
    * @param options.depth - Depth of the platform
    * @param options.repeatX - (Optional) Number of times the texture repeats along width, default 1
    * @param options.repeatZ - (Optional) Number of times the texture repeats along depth, default 1
+   * @param options.texturePath - The texture of the surface
    */
   constructor(scene: Scene, options: PlatformOptions) {
     this.scene = scene
@@ -62,6 +66,7 @@ export class Platform {
     this.depth = options.depth
     this.repeatX = options.repeatX ?? 1
     this.repeatZ = options.repeatZ ?? 1
+    this.texturePath = options.texturePath
 
     this.mesh = this.createMesh()
     this.scene.add(this.mesh)
@@ -74,7 +79,7 @@ export class Platform {
    */
   private createMesh(): PlatformMesh {
     const loader = new TextureLoader()
-    const texture = loader.load("/assets/sprites/cobbles.png")
+    const texture = loader.load(this.texturePath)
 
     texture.wrapS = RepeatWrapping
     texture.wrapT = RepeatWrapping

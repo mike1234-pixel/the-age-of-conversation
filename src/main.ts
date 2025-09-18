@@ -58,6 +58,7 @@ new Platform(scene, {
   depth: 400,
   repeatX: 15,
   repeatZ: 150,
+  texturePath: "/assets/textures/cobbles.png",
 })
 
 // Jumpable platforms
@@ -67,6 +68,7 @@ new Platform(scene, {
   z: -2,
   width: 4,
   depth: 4,
+  texturePath: "/assets/textures/wood.jpg",
 })
 
 new Platform(scene, {
@@ -75,6 +77,7 @@ new Platform(scene, {
   z: 3,
   width: 3,
   depth: 3,
+  texturePath: "/assets/textures/wood.jpg",
 })
 
 new Platform(scene, {
@@ -83,6 +86,7 @@ new Platform(scene, {
   z: 6,
   width: 5,
   depth: 2,
+  texturePath: "/assets/textures/wood.jpg",
 })
 
 // Landmarks
@@ -92,6 +96,7 @@ new Platform(scene, {
   z: -5,
   width: 1,
   depth: 1,
+  texturePath: "/assets/textures/wood.jpg",
 })
 
 new Platform(scene, {
@@ -100,6 +105,7 @@ new Platform(scene, {
   z: 5,
   width: 2,
   depth: 1,
+  texturePath: "/assets/textures/wood.jpg",
 })
 
 new HouseRow({
@@ -134,6 +140,40 @@ const plumPuddings: PlumPudding[] = [
   new PlumPudding({ scene, position: { x: -4, y: 4.5, z: 3 } }),
   new PlumPudding({ scene, position: { x: -6, y: 4.5, z: 3 } }),
 ]
+
+// Staircase of platforms
+const stairCount = 6
+const stairWidth = 2
+const stairDepth = 2
+const stairHeight = 1.5
+const startX = 7
+const startY = 1
+const startZ = -10
+
+for (let i = 0; i < stairCount; i++) {
+  const platform = new Platform(scene, {
+    x: startX,
+    y: startY + i * stairHeight,
+    z: startZ + i * stairDepth,
+    width: stairWidth,
+    depth: stairDepth,
+    texturePath: "/assets/textures/wood.jpg",
+  })
+
+  STATE.platforms.push(platform.mesh)
+
+  // Place a plum pudding on this platform
+  plumPuddings.push(
+    new PlumPudding({
+      scene,
+      position: {
+        x: startX,
+        y: startY + i * stairHeight + 1, // slightly above the platform
+        z: startZ + i * stairDepth,
+      },
+    })
+  )
+}
 
 // Time Machine
 new SpriteEntity({
