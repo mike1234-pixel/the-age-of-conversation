@@ -1,1 +1,1 @@
-export const STREET_WIDTH = 20
+export const STREET_WIDTH: number = 20

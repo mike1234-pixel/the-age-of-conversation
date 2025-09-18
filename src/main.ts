@@ -28,6 +28,27 @@ const keys = setupInput()
 
 setupControls(camera, renderer)
 
+// Handel - Entrance to the Queen of Sheba for Two Oboes, Strings, and Continuo allegro by Advent Chamber Orchestra is licensed under a Attribution-Share Alike 3.0 United States License.
+// https://creativecommons.org/licenses/by-sa/3.0/us/
+// Music promoted on https://www.chosic.com/free-music/all/
+const backgroundMusic = new Audio(
+  "/assets/music/handel-arrival-of-the-queen-of-sheba.mp3"
+)
+backgroundMusic.loop = true
+backgroundMusic.volume = 0.5
+
+function startMusic() {
+  backgroundMusic.play().catch((err) => {
+    console.warn("Unable to play music automatically:", err)
+  })
+  window.removeEventListener("keydown", startMusic)
+  window.removeEventListener("mousedown", startMusic)
+}
+
+// Start music on first key press or mouse click
+window.addEventListener("keydown", startMusic)
+window.addEventListener("mousedown", startMusic)
+
 // Ground
 new Platform(scene, {
   x: 0,
@@ -117,14 +138,14 @@ const plumPuddings: PlumPudding[] = [
 // Time Machine
 new SpriteEntity({
   scene,
-  texturePath: "/assets/time-machine.png",
+  texturePath: "/assets/sprites/time-machine.png",
   position: new Vector3(1, 2.3, 1),
   scale: new Vector3(3, 4, 3),
 })
 
 const historian = new Character({
   scene,
-  texturePath: "/assets/historian.png",
+  texturePath: "/assets/sprites/historian.png",
   position: {
     x: 2,
     y: 2,
@@ -137,15 +158,31 @@ const historian = new Character({
 
 const man = new Character({
   scene,
-  texturePath: "/assets/man.png",
+  texturePath: "/assets/sprites/man.png",
   position: { x: -4, y: 2, z: -100 },
   scale: { x: 3, y: 3 },
   speech: DIALOGUE.man,
 })
 
+const aristo = new Character({
+  scene,
+  texturePath: "/assets/sprites/aristo.png",
+  position: { x: 0, y: 2, z: -100 },
+  scale: { x: 3, y: 3 },
+  speech: DIALOGUE.aristo,
+})
+
+const woman = new Character({
+  scene,
+  texturePath: "/assets/sprites/woman.png",
+  position: { x: 2, y: 2, z: -100 },
+  scale: { x: 3, y: 3 },
+  speech: DIALOGUE.woman,
+})
+
 const rotundMan = new Character({
   scene,
-  texturePath: "/assets/rotund-man.png",
+  texturePath: "/assets/sprites/rotund-man.png",
   position: {
     x: 8,
     y: 2,
@@ -157,7 +194,7 @@ const rotundMan = new Character({
 
 const rotundWoman = new Character({
   scene,
-  texturePath: "/assets/rotund-woman.png",
+  texturePath: "/assets/sprites/rotund-woman.png",
   position: {
     x: -8,
     y: 2,
@@ -181,6 +218,8 @@ function animate(): void {
   rotundMan.move(-0.01, 0, 0, playerPosition)
   rotundWoman.move(0.01, 0, 0, playerPosition)
   man.move(0, 0, 0.05, playerPosition)
+  aristo.move(0, 0, 0.05, playerPosition)
+  woman.move(0, 0, 0.1, playerPosition)
   historian.move(0, 0, 0, playerPosition)
 
   const move = getCameraRelativeMovement(keys, PLAYER_PHYSICS.speed, camera)

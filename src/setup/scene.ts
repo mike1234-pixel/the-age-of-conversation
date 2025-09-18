@@ -4,7 +4,7 @@ export const setupScene = (): Scene => {
   const scene: Scene = new Scene()
 
   const loader = new TextureLoader()
-  loader.load("/assets/sky.png", function (texture) {
+  loader.load("/assets/sprites/sky.png", function (texture) {
     scene.background = texture
   })
 

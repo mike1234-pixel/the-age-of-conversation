@@ -74,7 +74,7 @@ export class Platform {
    */
   private createMesh(): PlatformMesh {
     const loader = new TextureLoader()
-    const texture = loader.load("/assets/cobbles.png")
+    const texture = loader.load("/assets/sprites/cobbles.png")
 
     texture.wrapS = RepeatWrapping
     texture.wrapT = RepeatWrapping

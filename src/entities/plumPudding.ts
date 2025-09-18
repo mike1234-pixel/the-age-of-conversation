@@ -9,8 +9,10 @@ export interface PlumPuddingOptions {
   scene: Scene
   /** Position of the collectible in 3D space */
   position: { x: number; y: number; z: number }
-  /** Path to the sprite texture (default: "/assets/plum-pudding.png") */
+  /** Path to the sprite texture (default: "/assets/sprites/plum-pudding.png") */
   textureUrl?: string
+  /** Path to the audio file played on collection (default: "/assets/sprites/collect.mp3") */
+  audioUrl?: string
 }
 
 /**
@@ -19,6 +21,7 @@ export interface PlumPuddingOptions {
 export class PlumPudding {
   sprite: Sprite
   collected: boolean
+  private audio: HTMLAudioElement
 
   /**
    * Creates a new PlumPudding collectible.
@@ -26,9 +29,10 @@ export class PlumPudding {
    * @param options.scene - Three.js scene to add the sprite to
    * @param options.position - 3D position of the collectible
    * @param options.textureUrl - Optional path to the sprite texture
+   * @param options.audioUrl - Optional path to the collection sound
    */
   constructor(options: PlumPuddingOptions) {
-    const textureUrl = options.textureUrl ?? "/assets/plum-pudding.png"
+    const textureUrl = options.textureUrl ?? "/assets/sprites/plum-pudding.png"
     const loader = new TextureLoader()
     const texture = loader.load(textureUrl)
     const material = new SpriteMaterial({ map: texture })
@@ -43,6 +47,10 @@ export class PlumPudding {
 
     options.scene.add(this.sprite)
     this.collected = false
+
+    // Preload audio
+    const audioUrl = options.audioUrl ?? "/assets/sfx/bell.mp3"
+    this.audio = new Audio(audioUrl)
   }
 
   /**
@@ -65,7 +73,7 @@ export class PlumPudding {
     return false
   }
 
-  /** Handles collection logic, updates state, and removes the sprite from the scene */
+  /** Handles collection logic, updates state, removes the sprite, and plays audio */
   collect() {
     this.collected = true
     STATE.plumPuddingCount++
@@ -79,6 +87,10 @@ export class PlumPudding {
 
     counterEl.textContent = STATE.plumPuddingCount.toString()
     puddingProgressBar.value = STATE.plumPuddingCount
+
+    // Play collection sound
+    this.audio.currentTime = 0
+    this.audio.play()
 
     this.sprite.parent?.remove(this.sprite)
   }

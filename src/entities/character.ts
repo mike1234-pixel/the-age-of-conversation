@@ -56,7 +56,7 @@ export class Character {
     position = { x: 0, y: 0, z: 0 },
     scale = { x: 4, y: 4 },
     speech = "Hello sir!",
-    speechDuration = 3000,
+    speechDuration = 8000,
   }: CharacterOptions) {
     this.speech = speech
     this.speechDuration = speechDuration

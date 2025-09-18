@@ -60,7 +60,7 @@ export class House {
   private createMesh(): Mesh {
     const loader = new TextureLoader()
     const textureMaterial = new MeshBasicMaterial({
-      map: loader.load("/assets/house.png"),
+      map: loader.load("/assets/sprites/house.png"),
     })
 
     const topMaterial = new MeshBasicMaterial({ color: 0x4b2e1e }) // dark brown

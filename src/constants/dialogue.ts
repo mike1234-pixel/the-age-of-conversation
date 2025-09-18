@@ -11,10 +11,14 @@ export const DIALOGUE = {
     "Now go out and seek the acclaimed Dr, by USING THE ARROW KEYS OR WASD KEYS TO MOVE.",
   ],
   man: "Sir! Might I ask your country of origin? For your dress is most peculiar.",
+  woman:
+    "It is a truth universally acknowledged that a woman of my standing need not chase fortune; rather, fortune must bend itself most courteously in my direction.",
   rotundMan:
     "Good morning to you sir! Fleet Street is a peculiar place, containing many platforms that must be vaulted over therein. You may PRESS SPACEBAR TO JUMP over such hurdles, should they be a cause of nuisance. Why don't you give it a try?",
   rotundWoman: [
     "Good morning Sir. With great care, I assembled 50 splendid PLUM PUDDINGS for The Esteemed Lexicographer, Dr Johnson, but a ruinous cat ran off with them and scattered them all over town! Please help me find them Sir.",
     "Pray, observe your surroundings by ENABLING POINTER LOCK CONTROLS, simply CLICK ON THE GAME WINDOW and MOVE YOUR MOUSE. And permit me to offer a word of counsel Sir, you can PRESS THE ESC KEY TO DISABLE POINTER LOCK CONTROLS.",
   ],
+  aristo:
+    "My wig gleams with peerless perfection, my waistcoat radiates unblemished splendor — yet one triumph eludes me: a rival bold enough to recognize, and meek enough to bow before, the full, blinding majesty of my elegance.",
 }
