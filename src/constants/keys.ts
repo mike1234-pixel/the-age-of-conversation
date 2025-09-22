@@ -1,4 +1,4 @@
-export const KEYS = {
+export const directionalKeys = {
   W: "w",
   A: "a",
   S: "s",
@@ -8,3 +8,6 @@ export const KEYS = {
   ArrowLeft: "arrowleft",
   ArrowRight: "arrowright",
 } as const
+
+export type DirectionalKey =
+  (typeof directionalKeys)[keyof typeof directionalKeys]

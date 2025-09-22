@@ -6,7 +6,7 @@ interface PlayerPhysics {
   height: number
 }
 
-export const PLAYER_PHYSICS: PlayerPhysics = {
+export const playerPhysics: PlayerPhysics = {
   speed: 0.3,
   yVelocity: 0,
   gravity: -0.02,

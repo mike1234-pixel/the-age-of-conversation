@@ -1,4 +1,4 @@
-import { PLAYER_PHYSICS } from "../constants/playerPhysics"
+import { playerPhysics } from "../constants/playerPhysics"
 
 export const setupInput = (): Record<string, boolean> => {
   const keys: Record<string, boolean> = {}
@@ -16,8 +16,8 @@ export const setupInput = (): Record<string, boolean> => {
 
   // Jump
   window.addEventListener("keydown", (e: KeyboardEvent) => {
-    if (e.key === " " && PLAYER_PHYSICS.yVelocity === 0)
-      PLAYER_PHYSICS.yVelocity = PLAYER_PHYSICS.jumpStrength
+    if (e.key === " " && playerPhysics.yVelocity === 0)
+      playerPhysics.yVelocity = playerPhysics.jumpStrength
   })
 
   return keys

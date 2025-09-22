@@ -6,7 +6,7 @@ import {
   Texture,
   RepeatWrapping,
 } from "three"
-import { STATE } from "../state"
+import { platforms } from "../constants/environment"
 
 export type PlatformMesh = Mesh<BoxGeometry, MeshBasicMaterial>
 
@@ -74,7 +74,7 @@ export class Platform {
 
     this.mesh = this.createMesh()
     this.scene.add(this.mesh)
-    STATE.platforms.push(this.mesh)
+    platforms.push(this.mesh)
   }
 
   /**

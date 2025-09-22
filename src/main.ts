@@ -1,19 +1,18 @@
-import { PLAYER_PHYSICS } from "./constants/playerPhysics"
+import { playerPhysics } from "./constants/playerPhysics"
 import { Platform } from "./entities/platform"
 import { setupRenderer } from "./setup/renderer"
 import { setupInput } from "./setup/input"
 import { setupScene } from "./setup/scene"
 import { setupCamera } from "./setup/camera"
 import { checkCollision } from "./physics/checkCollision"
-import { STREET_WIDTH } from "./constants/street"
+import { platforms, streetWidth } from "./constants/environment"
 import { Character } from "./entities/character"
 import { getCameraRelativeMovement } from "./physics/getCameraRelativeMovement"
 import { setupControls } from "./setup/controls"
 import { applyGravity } from "./physics/applyGravity"
-import { DIALOGUE } from "./constants/dialogue"
+import { dialogue } from "./constants/dialogue"
 import { PlumPudding } from "./entities/plumPudding"
 import { HouseRow } from "./entities/house"
-import { STATE } from "./state"
 import { SpriteEntity } from "./entities/spriteEntity"
 import { TextureLoader, Vector3 } from "three"
 import { setupAudio } from "./setup/audio"
@@ -104,7 +103,7 @@ new Platform(scene, {
 
 new HouseRow({
   scene,
-  startX: -STREET_WIDTH / 2,
+  startX: -streetWidth / 2,
   startZ: -70,
   numHouses: 20,
   spacing: 8,
@@ -113,7 +112,7 @@ new HouseRow({
 
 new HouseRow({
   scene,
-  startX: STREET_WIDTH / 2,
+  startX: streetWidth / 2,
   startZ: -70,
   numHouses: 20,
   spacing: 8,
@@ -154,7 +153,7 @@ for (let i = 0; i < stairCount; i++) {
     texture: woodTexture,
   })
 
-  STATE.platforms.push(platform.mesh)
+  platforms.push(platform.mesh)
 
   // Place a plum pudding on this platform
   plumPuddings.push(
@@ -186,7 +185,7 @@ const historian = new Character({
     z: 2.5,
   },
   scale: { x: 3, y: 3 },
-  speech: DIALOGUE.historian,
+  speech: dialogue.historian,
   speechDuration: 9000,
 })
 
@@ -195,7 +194,7 @@ const man = new Character({
   texture: manTexture,
   position: { x: -4, y: 2, z: -100 },
   scale: { x: 3, y: 3 },
-  speech: DIALOGUE.man,
+  speech: dialogue.man,
 })
 
 const aristo = new Character({
@@ -203,7 +202,7 @@ const aristo = new Character({
   texture: aristoTexture,
   position: { x: 0, y: 2, z: -100 },
   scale: { x: 3, y: 3 },
-  speech: DIALOGUE.aristo,
+  speech: dialogue.aristo,
 })
 
 const woman = new Character({
@@ -211,7 +210,7 @@ const woman = new Character({
   texture: womanTexture,
   position: { x: 2, y: 2, z: -100 },
   scale: { x: 3, y: 3 },
-  speech: DIALOGUE.woman,
+  speech: dialogue.woman,
 })
 
 const rotundMan = new Character({
@@ -223,7 +222,7 @@ const rotundMan = new Character({
     z: 1,
   },
   scale: { x: 3, y: 3 },
-  speech: DIALOGUE.rotundMan,
+  speech: dialogue.rotundMan,
 })
 
 const rotundWoman = new Character({
@@ -235,7 +234,7 @@ const rotundWoman = new Character({
     z: -7,
   },
   scale: { x: 3, y: 3 },
-  speech: DIALOGUE.rotundWoman,
+  speech: dialogue.rotundWoman,
   speechDuration: 9000,
 })
 
@@ -256,7 +255,7 @@ function animate(): void {
   woman.move(0, 0, 0.1, playerPosition)
   historian.move(0, 0, 0, playerPosition)
 
-  const move = getCameraRelativeMovement(keys, PLAYER_PHYSICS.speed, camera)
+  const move = getCameraRelativeMovement(keys, playerPhysics.speed, camera)
   const newPos = camera.position.clone().add(move)
 
   if (checkCollision(newPos)) {
@@ -264,7 +263,7 @@ function animate(): void {
     camera.position.z = newPos.z
   }
 
-  applyGravity(camera, STATE.platforms)
+  applyGravity(camera, platforms)
 
   // Plum Pudding Collection
   plumPuddings.forEach((plumPudding) =>

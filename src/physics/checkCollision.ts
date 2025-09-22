@@ -1,9 +1,9 @@
 import type { Vector3 } from "three"
-import { PLAYER_PHYSICS } from "../constants/playerPhysics"
-import { STATE } from "../state"
+import { playerPhysics } from "../constants/playerPhysics"
+import { platforms } from "../constants/environment"
 
 export const checkCollision = (position: Vector3): boolean => {
-  for (const platform of STATE.platforms) {
+  for (const platform of platforms) {
     const px = platform.position.x
     const py = platform.position.y + 0.5
     const pz = platform.position.z
@@ -17,8 +17,8 @@ export const checkCollision = (position: Vector3): boolean => {
     if (
       insideX &&
       insideZ &&
-      PLAYER_PHYSICS.yVelocity <= 0 &&
-      position.y - PLAYER_PHYSICS.height >= py
+      playerPhysics.yVelocity <= 0 &&
+      position.y - playerPhysics.height >= py
     ) {
       return true
     }

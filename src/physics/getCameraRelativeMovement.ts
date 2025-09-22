@@ -1,12 +1,12 @@
 import { Vector3, type Camera } from "three"
-import { KEYS } from "../constants/keys"
+import { directionalKeys, type DirectionalKey } from "../constants/keys"
 
 // Temporary vector for reuse
 const direction = new Vector3()
 const right = new Vector3()
 
 export const getCameraRelativeMovement = (
-  keys: any,
+  keys: Partial<Record<DirectionalKey, boolean>>,
   speed: number,
   camera: Camera
 ): Vector3 => {
@@ -21,13 +21,13 @@ export const getCameraRelativeMovement = (
   right.crossVectors(direction, camera.up).normalize()
 
   // WASD / Arrow movement
-  if (keys[KEYS.W] || keys[KEYS.ArrowUp])
+  if (keys[directionalKeys.W] || keys[directionalKeys.ArrowUp])
     move.add(direction.clone().multiplyScalar(speed))
-  if (keys[KEYS.S] || keys[KEYS.ArrowDown])
+  if (keys[directionalKeys.S] || keys[directionalKeys.ArrowDown])
     move.add(direction.clone().multiplyScalar(-speed))
-  if (keys[KEYS.A] || keys[KEYS.ArrowLeft])
+  if (keys[directionalKeys.A] || keys[directionalKeys.ArrowLeft])
     move.add(right.clone().multiplyScalar(-speed))
-  if (keys[KEYS.D] || keys[KEYS.ArrowRight])
+  if (keys[directionalKeys.D] || keys[directionalKeys.ArrowRight])
     move.add(right.clone().multiplyScalar(speed))
 
   return move

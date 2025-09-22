@@ -1,4 +1,4 @@
-export const DIALOGUE = {
+export const dialogue = {
   historian: [
     "Welcome! To The City of London. The year is 1775, a time when the streets are alive with the cacophony of horse-drawn carriages, the clatter of wooden carts, and the ceaseless murmur of commerce that has for centuries defined this proud metropolis.",
     "Here, within these ancient walls and narrow, winding lanes, the pulse of empire beats relentlessly, for London is no mere city—it is the beating heart of a nation whose influence stretches from the fog-bound banks of the Thames to the farthest reaches of the known world.",
