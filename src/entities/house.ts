@@ -4,7 +4,12 @@ import {
   BoxGeometry,
   MeshBasicMaterial,
   TextureLoader,
+  Texture,
 } from "three"
+
+const loader = new TextureLoader()
+const defaultHouseTexture = loader.load("/assets/textures/house.png")
+const defaultRoofTexture = loader.load("/assets/textures/wood.jpg")
 
 /**
  * Options for creating a single house
@@ -24,6 +29,8 @@ export interface HouseOptions {
   height?: number
   /** Depth of the house (default 6) */
   depth?: number
+  /** Optional texture for the house */
+  texture?: Texture
 }
 
 /**
@@ -38,6 +45,7 @@ export class House {
   private x: number
   private y: number
   private z: number
+  private texture?: Texture
 
   /**
    * Creates a new House.
@@ -51,6 +59,7 @@ export class House {
     this.width = options.width ?? 6
     this.height = options.height ?? 11
     this.depth = options.depth ?? 6
+    this.texture = options.texture
 
     this.mesh = this.createMesh()
     this.scene.add(this.mesh)
@@ -58,12 +67,13 @@ export class House {
 
   /** Internal method to create the Three.js mesh */
   private createMesh(): Mesh {
-    const loader = new TextureLoader()
     const textureMaterial = new MeshBasicMaterial({
-      map: loader.load("/assets/sprites/house.png"),
+      map: this.texture ?? defaultHouseTexture,
     })
 
-    const topMaterial = new MeshBasicMaterial({ color: 0x4b2e1e }) // dark brown
+    const topMaterial = new MeshBasicMaterial({
+      map: defaultRoofTexture,
+    })
 
     // Order: right, left, top, bottom, front, back
     const materials = [
@@ -101,6 +111,8 @@ export interface HouseRowOptions {
   spacing: number
   /** Side of the street ("left" or "right") */
   side: "left" | "right"
+  /** Optional texture for all houses in this row */
+  texture?: Texture
 }
 
 /**
@@ -113,6 +125,7 @@ export class HouseRow {
   private numHouses: number
   private spacing: number
   private side: "left" | "right"
+  private texture?: Texture
 
   /**
    * Creates a row of houses.
@@ -125,6 +138,7 @@ export class HouseRow {
     this.numHouses = options.numHouses
     this.spacing = options.spacing
     this.side = options.side
+    this.texture = options.texture
 
     this.createRow()
   }
@@ -139,6 +153,7 @@ export class HouseRow {
         x: this.startX + offsetX,
         y: 0,
         z: zPos,
+        texture: this.texture,
       })
     }
   }
