@@ -1,5 +1,8 @@
-import { Scene, Sprite, SpriteMaterial, TextureLoader } from "three"
+import { Scene, Sprite, SpriteMaterial, Texture, TextureLoader } from "three"
 import { STATE } from "../state"
+
+const loader = new TextureLoader()
+const defaultTexture = loader.load("/assets/sprites/plum-pudding.png")
 
 /**
  * Options for creating a PlumPudding collectible
@@ -9,8 +12,8 @@ export interface PlumPuddingOptions {
   scene: Scene
   /** Position of the collectible in 3D space */
   position: { x: number; y: number; z: number }
-  /** Path to the sprite texture (default: "/assets/sprites/plum-pudding.png") */
-  textureUrl?: string
+  /** Preloaded sprite texture (default: loads "/assets/sprites/plum-pudding.png") */
+  texture?: Texture
   /** Path to the audio file played on collection (default: "/assets/sprites/collect.mp3") */
   audioUrl?: string
 }
@@ -28,13 +31,12 @@ export class PlumPudding {
    * @param options - Configuration object for the PlumPudding
    * @param options.scene - Three.js scene to add the sprite to
    * @param options.position - 3D position of the collectible
-   * @param options.textureUrl - Optional path to the sprite texture
+   * @param options.texture - Optional preloaded sprite texture
    * @param options.audioUrl - Optional path to the collection sound
    */
   constructor(options: PlumPuddingOptions) {
-    const textureUrl = options.textureUrl ?? "/assets/sprites/plum-pudding.png"
-    const loader = new TextureLoader()
-    const texture = loader.load(textureUrl)
+    const texture = options.texture ?? defaultTexture
+
     const material = new SpriteMaterial({ map: texture })
 
     this.sprite = new Sprite(material)
