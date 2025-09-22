@@ -3,7 +3,7 @@ import {
   Mesh,
   MeshBasicMaterial,
   Scene,
-  TextureLoader,
+  Texture,
   RepeatWrapping,
 } from "three"
 import { STATE } from "../state"
@@ -26,7 +26,7 @@ export interface PlatformOptions {
   /** Number of times the texture repeats along the depth */
   repeatZ?: number
   /** The surface texture */
-  texturePath: string
+  texture: Texture
 }
 
 /**
@@ -42,7 +42,7 @@ export class Platform {
   private depth: number
   private repeatX: number
   private repeatZ: number
-  private texturePath: string
+  private texture: Texture
 
   /**
    * Creates a new Platform.
@@ -55,7 +55,7 @@ export class Platform {
    * @param options.depth - Depth of the platform
    * @param options.repeatX - (Optional) Number of times the texture repeats along width, default 1
    * @param options.repeatZ - (Optional) Number of times the texture repeats along depth, default 1
-   * @param options.texturePath - The texture of the surface
+   * @param options.texture - The texture of the surface
    */
   constructor(scene: Scene, options: PlatformOptions) {
     this.scene = scene
@@ -66,7 +66,11 @@ export class Platform {
     this.depth = options.depth
     this.repeatX = options.repeatX ?? 1
     this.repeatZ = options.repeatZ ?? 1
-    this.texturePath = options.texturePath
+    this.texture = options.texture
+
+    this.texture.wrapS = RepeatWrapping
+    this.texture.wrapT = RepeatWrapping
+    this.texture.repeat.set(this.repeatX, this.repeatZ)
 
     this.mesh = this.createMesh()
     this.scene.add(this.mesh)
@@ -78,14 +82,7 @@ export class Platform {
    * @returns The mesh representing the platform
    */
   private createMesh(): PlatformMesh {
-    const loader = new TextureLoader()
-    const texture = loader.load(this.texturePath)
-
-    texture.wrapS = RepeatWrapping
-    texture.wrapT = RepeatWrapping
-    texture.repeat.set(this.repeatX, this.repeatZ)
-
-    const material = new MeshBasicMaterial({ map: texture })
+    const material = new MeshBasicMaterial({ map: this.texture })
     const platformMesh = new Mesh(
       new BoxGeometry(this.width, 1, this.depth),
       material

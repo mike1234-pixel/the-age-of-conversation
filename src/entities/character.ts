@@ -1,4 +1,4 @@
-import { Sprite, Scene, TextureLoader, SpriteMaterial } from "three"
+import { Sprite, Scene, Texture, SpriteMaterial } from "three"
 
 interface Vector3 {
   x: number
@@ -14,8 +14,8 @@ interface Scale {
 export interface CharacterOptions {
   /** Three.js scene to add the character to */
   scene: Scene
-  /** Path to the character texture */
-  texturePath: string
+  /** The character texture */
+  texture: Texture
   /** Initial position of the character */
   position?: Vector3
   /** Scale of the character sprite */
@@ -44,7 +44,7 @@ export class Character {
   /**
    * Creates a new character.
    * @param options.scene - Three.js scene to add the character to
-   * @param options.texturePath - Path to the sprite texture
+   * @param options.texture - The sprite texture
    * @param options.position - Optional initial position (default { x:0, y:0, z:0 })
    * @param options.scale - Optional sprite scale (default { x:4, y:4 })
    * @param options.speech - Optional dialogue text or array of lines (default "Hello sir!")
@@ -52,7 +52,7 @@ export class Character {
    */
   constructor({
     scene,
-    texturePath,
+    texture,
     position = { x: 0, y: 0, z: 0 },
     scale = { x: 4, y: 4 },
     speech = "Hello sir!",
@@ -60,9 +60,6 @@ export class Character {
   }: CharacterOptions) {
     this.speech = speech
     this.speechDuration = speechDuration
-
-    const loader = new TextureLoader()
-    const texture = loader.load(texturePath)
 
     this.sprite = new Sprite(new SpriteMaterial({ map: texture }))
     this.sprite.position.set(position.x, position.y, position.z)

@@ -15,7 +15,7 @@ import { PlumPudding } from "./entities/plumPudding"
 import { HouseRow } from "./entities/house"
 import { STATE } from "./state"
 import { SpriteEntity } from "./entities/spriteEntity"
-import { Vector3 } from "three"
+import { TextureLoader, Vector3 } from "three"
 import { setupAudio } from "./setup/audio"
 
 // Initial Setup
@@ -31,6 +31,18 @@ setupControls(camera, renderer)
 
 setupAudio()
 
+// Textures (preload textures for better performance)
+const loader = new TextureLoader()
+const cobblesTexture = loader.load("/assets/textures/cobbles.png")
+const woodTexture = loader.load("/assets/textures/wood.jpg")
+const historianTexture = loader.load("/assets/sprites/historian.png")
+const manTexture = loader.load("/assets/sprites/man.png")
+const womanTexture = loader.load("/assets/sprites/woman.png")
+const aristoTexture = loader.load("/assets/sprites/aristo.png")
+const rotundManTexture = loader.load("/assets/sprites/rotund-man.png")
+const rotundWomanTexture = loader.load("/assets/sprites/rotund-woman.png")
+const timeMachineTexture = loader.load("/assets/sprites/time-machine.png")
+
 // Ground
 new Platform(scene, {
   x: 0,
@@ -40,7 +52,7 @@ new Platform(scene, {
   depth: 400,
   repeatX: 15,
   repeatZ: 150,
-  texturePath: "/assets/textures/cobbles.png",
+  texture: cobblesTexture,
 })
 
 // Jumpable platforms
@@ -50,7 +62,7 @@ new Platform(scene, {
   z: -2,
   width: 4,
   depth: 4,
-  texturePath: "/assets/textures/wood.jpg",
+  texture: woodTexture,
 })
 
 new Platform(scene, {
@@ -59,7 +71,7 @@ new Platform(scene, {
   z: 3,
   width: 3,
   depth: 3,
-  texturePath: "/assets/textures/wood.jpg",
+  texture: woodTexture,
 })
 
 new Platform(scene, {
@@ -68,7 +80,7 @@ new Platform(scene, {
   z: 6,
   width: 5,
   depth: 2,
-  texturePath: "/assets/textures/wood.jpg",
+  texture: woodTexture,
 })
 
 // Landmarks
@@ -78,7 +90,7 @@ new Platform(scene, {
   z: -5,
   width: 1,
   depth: 1,
-  texturePath: "/assets/textures/wood.jpg",
+  texture: woodTexture,
 })
 
 new Platform(scene, {
@@ -87,7 +99,7 @@ new Platform(scene, {
   z: 5,
   width: 2,
   depth: 1,
-  texturePath: "/assets/textures/wood.jpg",
+  texture: woodTexture,
 })
 
 new HouseRow({
@@ -139,7 +151,7 @@ for (let i = 0; i < stairCount; i++) {
     z: startZ + i * stairDepth,
     width: stairWidth,
     depth: stairDepth,
-    texturePath: "/assets/textures/wood.jpg",
+    texture: woodTexture,
   })
 
   STATE.platforms.push(platform.mesh)
@@ -160,14 +172,14 @@ for (let i = 0; i < stairCount; i++) {
 // Time Machine
 new SpriteEntity({
   scene,
-  texturePath: "/assets/sprites/time-machine.png",
+  texture: timeMachineTexture,
   position: new Vector3(1, 2.3, 1),
   scale: new Vector3(3, 4, 3),
 })
 
 const historian = new Character({
   scene,
-  texturePath: "/assets/sprites/historian.png",
+  texture: historianTexture,
   position: {
     x: 2,
     y: 2,
@@ -180,7 +192,7 @@ const historian = new Character({
 
 const man = new Character({
   scene,
-  texturePath: "/assets/sprites/man.png",
+  texture: manTexture,
   position: { x: -4, y: 2, z: -100 },
   scale: { x: 3, y: 3 },
   speech: DIALOGUE.man,
@@ -188,7 +200,7 @@ const man = new Character({
 
 const aristo = new Character({
   scene,
-  texturePath: "/assets/sprites/aristo.png",
+  texture: aristoTexture,
   position: { x: 0, y: 2, z: -100 },
   scale: { x: 3, y: 3 },
   speech: DIALOGUE.aristo,
@@ -196,7 +208,7 @@ const aristo = new Character({
 
 const woman = new Character({
   scene,
-  texturePath: "/assets/sprites/woman.png",
+  texture: womanTexture,
   position: { x: 2, y: 2, z: -100 },
   scale: { x: 3, y: 3 },
   speech: DIALOGUE.woman,
@@ -204,7 +216,7 @@ const woman = new Character({
 
 const rotundMan = new Character({
   scene,
-  texturePath: "/assets/sprites/rotund-man.png",
+  texture: rotundManTexture,
   position: {
     x: 8,
     y: 2,
@@ -216,7 +228,7 @@ const rotundMan = new Character({
 
 const rotundWoman = new Character({
   scene,
-  texturePath: "/assets/sprites/rotund-woman.png",
+  texture: rotundWomanTexture,
   position: {
     x: -8,
     y: 2,
