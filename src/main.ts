@@ -219,7 +219,7 @@ const rotundMan = new Character({
   position: {
     x: 8,
     y: 2,
-    z: 1,
+    z: -5,
   },
   scale: { x: 3, y: 3 },
   speech: dialogue.rotundMan,
@@ -248,11 +248,11 @@ function animate(): void {
     z: camera.position.z,
   }
 
-  rotundMan.move(-0.01, 0, 0, playerPosition)
-  rotundWoman.move(0.01, 0, 0, playerPosition)
-  man.move(0, 0, 0.05, playerPosition)
-  aristo.move(0, 0, 0.05, playerPosition)
-  woman.move(0, 0, 0.1, playerPosition)
+  rotundMan.move(-0.001, 0, 0, playerPosition)
+  rotundWoman.move(0.001, 0, 0, playerPosition)
+  man.move(0, 0, 0.02, playerPosition)
+  aristo.move(0, 0, 0.02, playerPosition)
+  woman.move(0, 0, 0.03, playerPosition)
   historian.move(0, 0, 0, playerPosition)
 
   const move = getCameraRelativeMovement(keys, playerPhysics.speed, camera)
