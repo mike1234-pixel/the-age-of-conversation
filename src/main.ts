@@ -1,10 +1,10 @@
 // TODO:
-// - prevent player moving until historian has finished speaking
 // - prevent NPCs moving until historian has finished speaking
 // - make NPCs move back and forth, not fly off the edge of the world
 // - sprites should only face the player on the x-axis
 // - plum pudding should extend a collectible class
 // - character class should extend sprite entity
+// - add bg image on the play button
 
 import { playerPhysics } from "./constants/playerPhysics"
 import { Platform } from "./entities/platform"
@@ -186,7 +186,8 @@ const historian = new Character({
   },
   scale: { x: 3, y: 3 },
   speech: dialogue.historian,
-  speechDuration: 9000,
+  speechDuration: 1000,
+  speechIsIntroductory: true,
 })
 
 const man = new Character({

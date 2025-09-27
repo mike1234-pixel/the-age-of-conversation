@@ -1,4 +1,5 @@
 import { Sprite, Scene, Texture, SpriteMaterial } from "three"
+import { state } from "../state"
 
 interface Vector3 {
   x: number
@@ -24,6 +25,8 @@ export interface CharacterOptions {
   speech?: string | string[]
   /** Duration in milliseconds for each line of speech */
   speechDuration?: number
+  /** Whether character initial speech is introductory */
+  speechIsIntroductory?: boolean
 }
 
 // 🔑 Global tracker for speech
@@ -40,6 +43,7 @@ export class Character {
   hasSpoken: boolean = false
   speech: string | string[] = "Hello sir!"
   speechDuration: number
+  speechIsIntroductory: boolean = false
 
   /**
    * Creates a new character.
@@ -49,6 +53,7 @@ export class Character {
    * @param options.scale - Optional sprite scale (default { x:4, y:4 })
    * @param options.speech - Optional dialogue text or array of lines (default "Hello sir!")
    * @param options.speechDuration - Optional duration per line in ms (default 3000)
+   * @param options.speechIsIntroductory - Optional whether character speech is introductory (default false)
    */
   constructor({
     scene,
@@ -57,9 +62,11 @@ export class Character {
     scale = { x: 4, y: 4 },
     speech = "Hello sir!",
     speechDuration = 8000,
+    speechIsIntroductory = false,
   }: CharacterOptions) {
     this.speech = speech
     this.speechDuration = speechDuration
+    this.speechIsIntroductory = speechIsIntroductory
 
     this.sprite = new Sprite(new SpriteMaterial({ map: texture }))
     this.sprite.position.set(position.x, position.y, position.z)
@@ -142,6 +149,11 @@ export class Character {
       if (index >= lines.length) {
         subtitleEl.textContent = ""
         this.speaking = false
+
+        if (this.speechIsIntroductory && !state.introductorySpeechComplete) {
+          state.introductorySpeechComplete = true
+        }
+
         if (currentSpeaker === this) currentSpeaker = null
         currentSpeechTimeout = null
         return
