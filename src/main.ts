@@ -1,10 +1,10 @@
 // TODO:
-// - prevent NPCs moving until historian has finished speaking
 // - make NPCs move back and forth, not fly off the edge of the world
 // - sprites should only face the player on the x-axis
 // - plum pudding should extend a collectible class
 // - character class should extend sprite entity
 // - add bg image on the play button
+// - maintain velocity when jumping
 
 import { playerPhysics } from "./constants/playerPhysics"
 import { Platform } from "./entities/platform"
@@ -22,6 +22,7 @@ import { PlumPudding } from "./entities/plumPudding"
 import { HouseRow } from "./entities/house"
 import { SpriteEntity } from "./entities/spriteEntity"
 import { TextureLoader, Vector3 } from "three"
+import { state } from "./state"
 
 // Initial Setup
 const scene = setupScene()
@@ -186,7 +187,7 @@ const historian = new Character({
   },
   scale: { x: 3, y: 3 },
   speech: dialogue.historian,
-  speechDuration: 1000,
+  speechDuration: 200, // set back to 9000
   speechIsIntroductory: true,
 })
 
@@ -249,12 +250,15 @@ function animate(): void {
     z: camera.position.z,
   }
 
-  rotundMan.move(-0.001, 0, 0, playerPosition)
-  rotundWoman.move(0.001, 0, 0, playerPosition)
-  man.move(0, 0, 0.02, playerPosition)
-  aristo.move(0, 0, 0.02, playerPosition)
-  woman.move(0, 0, 0.03, playerPosition)
   historian.move(0, 0, 0, playerPosition)
+
+  if (state.introductorySpeechComplete) {
+    rotundMan.move(-0.001, 0, 0, playerPosition)
+    rotundWoman.move(0.1, 0, 0, playerPosition)
+    man.move(0, 0, 0.02, playerPosition)
+    aristo.move(0, 0, 0.02, playerPosition)
+    woman.move(0, 0, 0.03, playerPosition)
+  }
 
   const move = getCameraRelativeMovement(keys, playerPhysics.speed, camera)
   const newPos = camera.position.clone().add(move)
