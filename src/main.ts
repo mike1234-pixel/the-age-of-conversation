@@ -1,3 +1,11 @@
+// TODO:
+// - prevent player moving until historian has finished speaking
+// - prevent NPCs moving until historian has finished speaking
+// - make NPCs move back and forth, not fly off the edge of the world
+// - sprites should only face the player on the x-axis
+// - plum pudding should extend a collectible class
+// - character class should extend sprite entity
+
 import { playerPhysics } from "./constants/playerPhysics"
 import { Platform } from "./entities/platform"
 import { setupRenderer } from "./setup/renderer"
@@ -8,27 +16,21 @@ import { checkCollision } from "./physics/checkCollision"
 import { platforms, streetWidth } from "./constants/environment"
 import { Character } from "./entities/character"
 import { getCameraRelativeMovement } from "./physics/getCameraRelativeMovement"
-import { setupControls } from "./setup/controls"
 import { applyGravity } from "./physics/applyGravity"
 import { dialogue } from "./constants/dialogue"
 import { PlumPudding } from "./entities/plumPudding"
 import { HouseRow } from "./entities/house"
 import { SpriteEntity } from "./entities/spriteEntity"
 import { TextureLoader, Vector3 } from "three"
-import { setupAudio } from "./setup/audio"
 
 // Initial Setup
 const scene = setupScene()
 
 const camera = setupCamera()
 
-const renderer = setupRenderer()
+const renderer = setupRenderer(animate, camera)
 
 const keys = setupInput()
-
-setupControls(camera, renderer)
-
-setupAudio()
 
 // Textures (preload textures for better performance)
 const loader = new TextureLoader()
@@ -120,8 +122,6 @@ new HouseRow({
 })
 
 // Plum Puddings
-
-// TODO: PLUM PUDDING SHOULD EXTEND A COLLECTIBLE CLASS
 const plumPuddings: PlumPudding[] = [
   new PlumPudding({ scene, position: { x: 0, y: 1, z: -15 } }),
   new PlumPudding({ scene, position: { x: 1, y: 1, z: -15 } }),
@@ -272,5 +272,3 @@ function animate(): void {
 
   renderer.render(scene, camera)
 }
-
-animate()

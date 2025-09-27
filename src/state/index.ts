@@ -1,7 +1,9 @@
 export interface State {
   plumPuddingCount: number
+  gameLoopRunning: boolean
 }
 
-export const STATE: State = {
+export const state: State = {
   plumPuddingCount: 0,
+  gameLoopRunning: false,
 }

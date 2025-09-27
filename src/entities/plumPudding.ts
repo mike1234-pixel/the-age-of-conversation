@@ -1,5 +1,5 @@
 import { Scene, Sprite, SpriteMaterial, Texture, TextureLoader } from "three"
-import { STATE } from "../state"
+import { state } from "../state"
 
 const loader = new TextureLoader()
 const defaultTexture = loader.load("/assets/sprites/plum-pudding.png")
@@ -78,7 +78,7 @@ export class PlumPudding {
   /** Handles collection logic, updates state, removes the sprite, and plays audio */
   collect() {
     this.collected = true
-    STATE.plumPuddingCount++
+    state.plumPuddingCount++
 
     const counterEl = document.getElementById(
       "plum-pudding-count"
@@ -87,8 +87,8 @@ export class PlumPudding {
       "plum-puddings"
     ) as HTMLProgressElement
 
-    counterEl.textContent = STATE.plumPuddingCount.toString()
-    puddingProgressBar.value = STATE.plumPuddingCount
+    counterEl.textContent = state.plumPuddingCount.toString()
+    puddingProgressBar.value = state.plumPuddingCount
 
     // Play collection sound
     this.audio.currentTime = 0
