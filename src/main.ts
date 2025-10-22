@@ -187,7 +187,7 @@ const historian = new Character({
   },
   scale: { x: 3, y: 3 },
   speech: dialogue.historian,
-  speechDuration: 200, // set back to 9000
+  speechDuration: 9000, // set back to 9000
   speechIsIntroductory: true,
 })
 
